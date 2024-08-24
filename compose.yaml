@@ -1,0 +1,39 @@
+services:
+
+  queue:
+    image: sgovindan/qlite:latest
+    volumes:
+      - ./qconf:/app/config
+    networks:
+      - q-network
+
+  enqueuer:
+    image: sgovindan/enqueuer:latest
+    depends_on:
+      - queue
+    volumes:
+      - ./econf:/app/config
+    networks:
+      - q-network
+
+  caddy:
+    image: caddy:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - queue
+    networks:
+      - q-network
+
+networks:
+  q-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:

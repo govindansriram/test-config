@@ -1,0 +1,8 @@
+name: pub
+password: publisher
+port: 5000
+maxPublisherConnections: 10
+maxIoTimeSeconds: 5
+apikey: test-apikey
+qlitePort: 8080
+qliteAddress: queue
